@@ -62,7 +62,7 @@
 
           wx.config({
             // debug: true, // 调试时可开启
-            appId: 'wxe5f52902cf4de896', 
+            appId: 'wx03e0478d45df65de', 
             timestamp: 0, // 必填，填任意数字即可
             nonceStr: 'nonceStr', // 必填，填任意非空字符串即可
             signature: 'signature', // 必填，填任意非空字符串即可
@@ -82,9 +82,9 @@
             // 必填，表示是未登录模式
             identityless: true,
             // 资源方 AppID
-            resourceAppid: 'wxe5f52902cf4de896',
+            resourceAppid: 'wx03e0478d45df65de',
             // 资源方环境 ID
-            resourceEnv: 'postpay-2g5hm2oxbbb721a4',
+            resourceEnv: 'prod-1g4twad027453294',
           })
           await c.init()
           window.c = c
@@ -193,7 +193,7 @@
       <div id="wechat-web-container" class="hidden">
         <p class="">点击以下按钮打开 “小程序示例”</p>
         <!-- 跳转小程序的开放标签。文档 https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_Open_Tag.html -->
-        <wx-open-launch-weapp id="launch-btn" username="gh_d43f693ca31f" path="/page/component/index">
+        <wx-open-launch-weapp id="launch-btn" username="gh_59e8233a8819" path="/pages/index/index">
           <template>
             <button style="width: 200px; height: 45px; text-align: center; font-size: 17px; display: block; margin: 0 auto; padding: 8px 24px; border: none; border-radius: 4px; background-color: #07c160; color:#fff;">打开小程序</button>
           </template>
