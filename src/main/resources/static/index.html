@@ -51,19 +51,39 @@
 
           var launchBtn = document.getElementById('launch-btn')
           launchBtn.addEventListener('ready', function (e) {
-            console.log('开放标签 ready')
+            // alert('开放标签 ready')
           })
           launchBtn.addEventListener('launch', function (e) {
-            console.log('开放标签 success')
+            // alert('开放标签 success')
           })
           launchBtn.addEventListener('error', function (e) {
-            console.log('开放标签 fail', e.detail)
+            // alert('开放标签 fail', e.detail)
           })
 
+          let newPath = `${window.location.href}`
+
+          let splitURL = newPath.split("?")[1].split("&");
+
+          let merchantCode = "";
+          let productId = "";
+
+          for(var i=0;i<splitURL.length;i++){
+            if(splitURL[i].indexOf("merchantCode=")!=-1){
+                merchantCode= splitURL[i].split("merchantCode=")[1];
+            }
+
+            if(splitURL[i].indexOf("productId=")!=-1){
+                productId= splitURL[i].split("productId=")[1];
+            }
+          }
+
+          let myPath = "pages/product/detail?id="+productId+"&merchantCode="+merchantCode;
+          launchBtn.setAttribute('path',myPath);
+
           wx.config({
-            // debug: true, // 调试时可开启
+            debug: true, // 调试时可开启
             appId: 'wx03e0478d45df65de', 
-            timestamp: 0, // 必填，填任意数字即可
+            timestamp: 123, // 必填，填任意数字即可
             nonceStr: 'nonceStr', // 必填，填任意非空字符串即可
             signature: 'signature', // 必填，填任意非空字符串即可
             jsApiList: ['chooseImage'], // 安卓上必填一个，随机即可
@@ -84,7 +104,7 @@
             // 资源方 AppID
             resourceAppid: 'wx03e0478d45df65de',
             // 资源方环境 ID
-            resourceEnv: 'prod-1g4twad027453294',
+            resourceEnv: 'cloud-9g0gyv39cb0e7e80',
           })
           await c.init()
           window.c = c
@@ -99,23 +119,48 @@
           } catch (e) {
             buttonEl.classList.remove('weui-btn_loading')
             buttonLoadingEl.classList.add('hidden')
+            // alert('--------',e.detail)
             throw e
           }
         }
       })
 
-      async function openWeapp(onBeforeJump) {
+      async function openWeapp() {
         var c = window.c
+
+        //merchantCode=xxx&productId=xxx
+        let newPath = `${window.location.href}`
+
+        let splitURL = newPath.split("?")[1].split("&");
+
+        let merchantCode = "";
+        let productId = "";
+
+        for(var i=0;i<splitURL.length;i++){
+          if(splitURL[i].indexOf("merchantCode=")!=-1){
+              merchantCode= splitURL[i].split("merchantCode=")[1];
+          }
+
+          if(splitURL[i].indexOf("productId=")!=-1){
+              productId= splitURL[i].split("productId=")[1];
+          }
+        }
+
+        // alert("merchantCode:"+merchantCode)
+        // alert("productId:"+productId)
+
         const res = await c.callFunction({
-          name: 'public',
+          name: 'add',
           data: {
             action: 'getUrlScheme',
+            path:"pages/product/detail",
+            query:"id="+productId+"&merchantCode="+merchantCode
           },
         })
-        console.warn(res)
-        if (onBeforeJump) {
-          onBeforeJump()
-        }
+        // console.warn(res)
+        // if (onBeforeJump) {
+        //   onBeforeJump()
+        // }
         location.href = res.result.openlink
       }
     </script>
@@ -184,16 +229,16 @@
   <body>
     <div class="page full">
       <div id="public-web-container" class="hidden">
-        <p class="">正在打开 “小程序示例”...</p>
+        <p class="">正在打开 “小程序”...</p>
         <a id="public-web-jump-button" href="javascript:" class="weui-btn weui-btn_primary weui-btn_loading" onclick="openWeapp()">
           <span id="public-web-jump-button-loading" class="weui-primary-loading weui-primary-loading_transparent"><i class="weui-primary-loading__dot"></i></span>
           打开小程序
         </a>
       </div>
       <div id="wechat-web-container" class="hidden">
-        <p class="">点击以下按钮打开 “小程序示例”</p>
+        <p class="">点击以下按钮打开 “小程序”</p>
         <!-- 跳转小程序的开放标签。文档 https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_Open_Tag.html -->
-        <wx-open-launch-weapp id="launch-btn" username="gh_59e8233a8819" path="/pages/index/index">
+        <wx-open-launch-weapp id="launch-btn" username="gh_59e8233a8819" >
           <template>
             <button style="width: 200px; height: 45px; text-align: center; font-size: 17px; display: block; margin: 0 auto; padding: 8px 24px; border: none; border-radius: 4px; background-color: #07c160; color:#fff;">打开小程序</button>
           </template>
